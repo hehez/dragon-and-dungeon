@@ -2,7 +2,7 @@ function make_platform (left: number, width: number, height: number) {
     console.logValue("platform=> left", left)
     console.logValue("platform=> height", height)
     for (let index = 0; index <= width - 1; index++) {
-        tiles.setTileAt(tiles.getTileLocation(left + index, height), sprites.dungeon.floorDark2)
+        tiles.setTileAt(tiles.getTileLocation(left + index, height), sprites.dungeon.floorDark1)
         tiles.setWallAt(tiles.getTileLocation(left + index, height), true)
         if (Math.percentChance(20 / width)) {
             make_spike(left + index, height)
@@ -13,8 +13,8 @@ function make_platform (left: number, width: number, height: number) {
     }
 }
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
-        mySprite.vy += 0
+    if (Dragon.isHittingTile(CollisionDirection.Bottom)) {
+        Dragon.vy += 0
     }
 })
 function make_coin (col: number, rol: number) {
@@ -51,14 +51,14 @@ function make_coin (col: number, rol: number) {
     sprite_coin.y += -3
 }
 function make_spike (col: number, rol: number) {
-    sprite_spike = sprites.create(assets.image`myImage2`, SpriteKind.Enemy)
+    sprite_spike = sprites.create(assets.image`myImage3`, SpriteKind.Enemy)
     tiles.placeOnTile(sprite_spike, tiles.getTileLocation(col, rol - 1))
     sprite_spike.x += 0
 }
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.chestClosed, function (sprite, location) {
-    tiles.placeOnTile(mySprite, tiles.getTileLocation(5, 158))
+    tiles.placeOnTile(Dragon, tiles.getTileLocation(5, 158))
     animation.runImageAnimation(
-    mySprite,
+    Dragon,
     [img`
         . . . . . . 5 . 5 . . . . . . . 
         . . . . . f 5 5 5 f f . . . . . 
@@ -119,13 +119,13 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.chestClosed, function (sp
     game.showLongText("Haha, find the treasure", DialogLayout.Center)
 })
 function make_map (num_platforms: number, width: number, start_y: number, space: number) {
-    let index = 0
+    let index2 = 0
     local_start = randint(0, 10 - width)
     console.logValue("local", local_start)
-    console.logValue("index", index)
+    console.logValue("index", index2)
     console.logValue("space", space)
-    for (let index = 0; index <= num_platforms; index++) {
-        make_platform(randint(0, 10 - width), width, 160 - ((index + 1) * space + start_y))
+    for (let index3 = 0; index3 <= num_platforms; index3++) {
+        make_platform(randint(0, 10 - width), width, 160 - ((index3 + 1) * space + start_y))
     }
     return local_start + Math.round(width / 2)
 }
@@ -138,21 +138,21 @@ function make_random (left: number, width: number, height: number) {
     make_platform(left + randint(width, 20), width, height)
 }
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.purpleOuterNorthEast, function (sprite, location) {
-    tiles.placeOnRandomTile(mySprite, sprites.swamp.swampTile0)
+    tiles.placeOnRandomTile(Dragon, sprites.swamp.swampTile0)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprites.destroy(otherSprite, effects.disintegrate, 100)
-    mySprite.sayText("ouch!!", 1000, false)
+    Dragon.sayText("ouch!!", 1000, false)
     info.changeScoreBy(-1)
     info.changeLifeBy(-1)
 })
 let local_start = 0
 let sprite_spike: Sprite = null
 let sprite_coin: Sprite = null
-let mySprite: Sprite = null
+let Dragon: Sprite = null
 scene.setBackgroundColor(9)
 tiles.setCurrentTilemap(tilemap`level2`)
-mySprite = sprites.create(img`
+Dragon = sprites.create(img`
     . . . . . . 5 . 5 . . . . . . . 
     . . . . . f 5 5 5 f f . . . . . 
     . . . . f 1 5 2 5 1 6 f . . . . 
@@ -171,13 +171,13 @@ mySprite = sprites.create(img`
     . . . . . f f . . f f . . . . . 
     `, SpriteKind.Player)
 info.setLife(3)
-tiles.placeOnRandomTile(mySprite, sprites.swamp.swampTile0)
-controller.moveSprite(mySprite, 100, 0)
-mySprite.ay = 250
-scene.cameraFollowSprite(mySprite)
+tiles.placeOnRandomTile(Dragon, sprites.swamp.swampTile0)
+controller.moveSprite(Dragon, 100, 0)
+Dragon.ay = 250
+scene.cameraFollowSprite(Dragon)
 make_map(50, 3, 3, 3)
 game.onUpdate(function () {
-    if (false && mySprite.isHittingTile(CollisionDirection.Bottom)) {
+    if (false && Dragon.isHittingTile(CollisionDirection.Bottom)) {
     	
     } else {
     	

@@ -67,6 +67,23 @@ ffcbbbcfcbbbcfcbbbcfcbbbcff
 . f c b b c c f c b b c c f 
 f f c b b b c f c b b b c f 
 `;
+            case "image5":
+            case "myImage3":return img`
+. . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . 
+. . . . f . . . . . f . . . 
+. . . . f . . . . . f . . . 
+. . . . f . . . . . f . . . 
+. . . f f f . . . f f f . . 
+. . . f 8 f . . . f 8 f . . 
+. . . f 8 f . . . f 8 f . . 
+. . f f 8 f f . f f 8 f f . 
+. . f 8 8 8 f . f 8 8 8 f . 
+. . f 8 6 8 f . f 8 6 8 f . 
+. f f 8 6 8 f f f 8 6 8 f f 
+. f 8 6 6 8 8 f 8 6 6 8 8 f 
+f f 8 6 6 6 8 f 8 6 6 6 8 f 
+`;
         }
         return null;
     })
