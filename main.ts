@@ -4,7 +4,7 @@ function make_platform (left: number, width: number, height: number) {
     for (let index = 0; index <= width - 1; index++) {
         tiles.setTileAt(tiles.getTileLocation(left + index, height), sprites.dungeon.floorDark2)
         tiles.setWallAt(tiles.getTileLocation(left + index, height), true)
-        if (Math.percentChance(50 / width)) {
+        if (Math.percentChance(20 / width)) {
             make_spike(left + index, height)
         }
         if (Math.percentChance(100 / width)) {
