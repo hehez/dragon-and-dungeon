@@ -4,11 +4,14 @@ function make_platform (left: number, width: number, height: number) {
     for (let index = 0; index <= width - 1; index++) {
         tiles.setTileAt(tiles.getTileLocation(left + index, height), sprites.dungeon.floorDark1)
         tiles.setWallAt(tiles.getTileLocation(left + index, height), true)
-        if (Math.percentChance(20 / width)) {
-            make_spike(left + index, height)
-        }
-        if (Math.percentChance(100 / width)) {
-            make_coin(left + index, height)
+        if (Math.percentChance(70)) {
+            if (Math.percentChance(100 / width)) {
+                make_coin(left + index, height)
+            }
+        } else {
+            if (Math.percentChance(20 / width)) {
+                make_spike(left + index, height)
+            }
         }
     }
 }
@@ -116,7 +119,7 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.chestClosed, function (sp
     )
     pause(100)
     info.stopCountdown()
-    game.showLongText("Haha, find the treasure", DialogLayout.Center)
+    game.showLongText("Congratulations! You find the treasure!", DialogLayout.Center)
 })
 function make_map (num_platforms: number, width: number, start_y: number, space: number) {
     let index2 = 0
@@ -125,7 +128,7 @@ function make_map (num_platforms: number, width: number, start_y: number, space:
     console.logValue("index", index2)
     console.logValue("space", space)
     for (let index3 = 0; index3 <= num_platforms; index3++) {
-        make_platform(randint(0, 10 - width), width, 160 - ((index3 + 1) * space + start_y))
+        make_platform(randint(0, 10 - width), randint(width - 1, width + 1), 160 - ((index3 + 1) * space + start_y))
     }
     return local_start + Math.round(width / 2)
 }
@@ -143,7 +146,6 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.purpleOuterNorthEast, fun
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprites.destroy(otherSprite, effects.disintegrate, 100)
     Dragon.sayText("ouch!!", 1000, false)
-    info.changeScoreBy(-1)
     info.changeLifeBy(-1)
 })
 let local_start = 0
@@ -171,11 +173,12 @@ Dragon = sprites.create(img`
     . . . . . f f . . f f . . . . . 
     `, SpriteKind.Player)
 info.setLife(3)
+info.setScore(0)
 tiles.placeOnRandomTile(Dragon, sprites.swamp.swampTile0)
 controller.moveSprite(Dragon, 100, 0)
 Dragon.ay = 250
 scene.cameraFollowSprite(Dragon)
-make_map(50, 3, 3, 3)
+make_map(49, 3, 3, 3)
 game.onUpdate(function () {
     if (false && Dragon.isHittingTile(CollisionDirection.Bottom)) {
     	
